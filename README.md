@@ -11,6 +11,8 @@ This repo provides a basic sample for a multi-tenanted application where each te
 
 ## Some multi-tenancy considerations
 
+Review our article on [Multitenancy and Azure Cosmos DB](https://learn.microsoft.com/azure/architecture/guide/multitenant/service/cosmos-db) for more guidance. 
+
 This sample application fetches the value of the tenant from request header (TenantId). In a real-world application, it is up to you how to identify this while keeping your application secure. For example, you may want to fetch the identifier from a cookie, or other header name.
 
 This approach of assigning a container (or database) to each tenant may be useful if it is absolutely necessary to strictly isolate performance for each tenant. However, you should carefully consider the trade-offs involved in taking this approach. 
@@ -19,9 +21,6 @@ Unlike traditional databases, Azure Cosmos DB, provides the capability for trans
 
 - **Cost** - each container has a minimum [Request Unit](https://learn.microsoft.com/azure/cosmos-db/request-units) allocation. If your distribution of activity between tenants is highly asymmetrical, having a container or database for each tenant may not prove cost effective.
 - **Client-side resources** - a single container can have millions of partitions, and all be served from a singleton Cosmos client. However, each container requires at least one CosmosClient. This may put significant memory/resource demands on your application code. For many thousands of tenants this may force you into a more complex application code setup in order to make resources more efficient. 
-
-
-
 
 ## Getting Started
 

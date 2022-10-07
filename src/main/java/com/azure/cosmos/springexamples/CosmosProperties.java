@@ -11,23 +11,6 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "cosmos")
 public class CosmosProperties {
 
-//    private Map<Object, Object> dataSources = new LinkedHashMap<>();
-//
-//    public Map<Object, Object> getDataSources() {
-//        return dataSources;
-//    }
-//
-//    public void setDataSources(Map<String, Map<String, String>> datasources) {
-//        System.out.println("current tenant in setDataSources: "+ TenantStorage.getCurrentTenant());
-//        datasources.forEach((key, value) -> this.dataSources.put(key, convert(value)));
-//    }
-//
-//    public Object convert(Map<String, String> source) {
-//        setUri(source.get("uri"));
-//        setKey(source.get("key"));
-//        setDatabaseName(source.get("database"));
-//        return null;
-//    }
     private String uri;
 
     private String key;

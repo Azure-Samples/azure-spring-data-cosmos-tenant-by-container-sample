@@ -9,7 +9,7 @@ Spring Data sample for a multi-tenanted app where each tenant has its own Azure 
 - A default database and container is also created, and this makes use of `CosmosRepository` and `azure-spring-data-cosmos` for Java SQL API, but nothing is stored in these resources by the application.
 - The application uses `WebRequestInterceptor` to capture a http request header of `TenantId`. This is used to identify the corresponding `User` container (tenant) from the hashmap. A new template and container will be dynamically created if none exists for `TenantId` in the hashmap.
 
-## Some multi-tenancy considerations
+## Multi-tenancy considerations
 
 Review our article on [Multitenancy and Azure Cosmos DB](https://learn.microsoft.com/azure/architecture/guide/multitenant/service/cosmos-db) for more guidance. 
 

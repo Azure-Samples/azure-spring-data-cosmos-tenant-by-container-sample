@@ -2,7 +2,6 @@ package com.azure.cosmos.springexamples;
 
 import com.azure.cosmos.models.PartitionKey;
 import com.azure.cosmos.springexamples.tenant.TenantStorage;
-import com.azure.cosmos.springexamples.tenant.TenantService;
 import com.azure.spring.data.cosmos.core.CosmosTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +25,7 @@ public class UserController {
     private UserRepository userRepository;
 
     @Autowired
-    private TenantService tenants;
+    private TenantStorage tenants;
 
     @Autowired
     private Environment env;

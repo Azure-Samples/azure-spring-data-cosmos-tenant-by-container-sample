@@ -1,4 +1,4 @@
-# Azure Cosmos DB Spring Data - Tenant by Container Sample
+# Azure Cosmos DB Spring Data - Tenant by Container
 
 This repo provides a basic sample for a multi-tenanted application where each tenant has it's own Azure Cosmos DB `container`.
 
@@ -11,7 +11,7 @@ This repo provides a basic sample for a multi-tenanted application where each te
 
 ## Some multi-tenancy considerations
 
-This sample application fetches the value of the tenant from request header (TenantId). In a real-world application, it is up to you how to identify this while keeping your application secure. For example, you want to fetch the identifier from a cookie, or other header name.
+This sample application fetches the value of the tenant from request header (TenantId). In a real-world application, it is up to you how to identify this while keeping your application secure. For example, you may want to fetch the identifier from a cookie, or other header name.
 
 This approach of assigning a container (or database) to each tenant may be useful if it is absolutely necessary to strictly isolate performance for each tenant. However, you should carefully consider the trade-offs involved in taking this approach. 
 

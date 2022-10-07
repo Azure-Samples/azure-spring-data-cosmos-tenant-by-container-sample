@@ -1,6 +1,6 @@
 # Azure Cosmos DB Spring Data - Tenant by Container
 
-This repo provides a basic sample for a multi-tenanted application where each tenant has it's own Azure Cosmos DB `container`.
+Spring Data sample for a multi-tenanted app where each tenant has its own Azure Cosmos DB `container`.
 
 ## Features
 

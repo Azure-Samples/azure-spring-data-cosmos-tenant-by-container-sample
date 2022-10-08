@@ -4,9 +4,9 @@ Spring Data sample for a multi-tenanted app where each tenant has its own Azure 
 
 ## Features
 
-- The application is a simple CRUD REST web service which creates `User` entries in each tenant. 
-- At application startup, a custom `CosmosTemplate` is created for all existing containers in the database defined at `cosmos.tenantsDatabase` in `application.properties` and stored in a hashmap. 
-- A default database and container is also created, and this makes use of `CosmosRepository` and `azure-spring-data-cosmos` for Java SQL API, but nothing is stored in these resources by the application.
+- The application is a simple CRUD REST web service which creates `User` entries in each tenant, and makes use of  `azure-spring-data-cosmos` for Azure Cosmos DB SQL API.
+- At application startup, a custom `CosmosTemplate` is created for all existing containers in the database defined at `cosmos.tenantsDatabase` in `application.properties`, and stored in a hashmap.
+- A default database is created using `cosmos.databaseName` in `application.properties`. A default container defined in `User` is also created. These resources make use of the standard `CosmosRepository` in `UserRepository`, but nothing is stored in them by the application.
 - The application uses `WebRequestInterceptor` to capture a http request header of `TenantId`. This is used to identify the corresponding `User` container (tenant) from the hashmap. A new template and container will be dynamically created if none exists for `TenantId` in the hashmap.
 
 ## Multi-tenancy considerations

@@ -30,14 +30,12 @@ public class UserController {
     @Autowired
     private Environment env;
 
-    private CosmosTemplate dynamicUserRepository;
-
     @PostMapping
     public @ResponseBody String createUser(@RequestBody User user) {
         String tenantId = TenantStorage.getCurrentTenant();
         //lookup dynamicUserRepository from hashmap of cosmos templates created at application start up
         //if no template exists for this tenant id, it is created dynamically here and added to the hashmap...
-        dynamicUserRepository = tenants.getTenantTemplate(tenantId);
+        CosmosTemplate dynamicUserRepository = tenants.getTenantTemplate(tenantId);
         UUID uuid = UUID.randomUUID();
         user.setId(String.valueOf(uuid));
         dynamicUserRepository.insert(tenantId, user);
@@ -49,7 +47,7 @@ public class UserController {
         String tenantId = TenantStorage.getCurrentTenant();
         //lookup dynamicUserRepository from hashmap of cosmos templates created at application start up
         //if no template exists for this tenant id, it is created dynamically here and added to the hashmap...
-        dynamicUserRepository = tenants.getTenantTemplate(tenantId);
+        CosmosTemplate dynamicUserRepository = tenants.getTenantTemplate(tenantId);
         Iterable<User> iter =  dynamicUserRepository.findAll(tenantId, User.class);
         return StreamSupport.stream(iter.spliterator(), true)
                 .map(User::toString)
@@ -61,7 +59,7 @@ public class UserController {
         String tenantId = TenantStorage.getCurrentTenant();
         //lookup dynamicUserRepository from hashmap of cosmos templates created at application start up
         //if no template exists for this tenant id, it is created dynamically here and added to the hashmap...
-        dynamicUserRepository = tenants.getTenantTemplate(tenantId);
+        CosmosTemplate dynamicUserRepository = tenants.getTenantTemplate(tenantId);
         User user = dynamicUserRepository.findById(tenantId, id, User.class);
         String response = "no users found for this tenant!";
         if(user != null){
@@ -76,7 +74,7 @@ public class UserController {
         String tenantId = TenantStorage.getCurrentTenant();
         //lookup dynamicUserRepository from hashmap of cosmos templates created at application start up
         //if no template exists for this tenant id, it is created dynamically here and added to the hashmap...
-        dynamicUserRepository = tenants.getTenantTemplate(tenantId);
+        CosmosTemplate dynamicUserRepository = tenants.getTenantTemplate(tenantId);
         User user = dynamicUserRepository.findById(tenantId, id, User.class);
         if(user != null){
             dynamicUserRepository.deleteById(tenantId,id, new PartitionKey(user.getLastName()));

@@ -4,7 +4,6 @@ package com.azure.cosmos.springexamples;
 
 import com.azure.cosmos.CosmosClientBuilder;
 import com.azure.cosmos.DirectConnectionConfig;
-//import com.azure.cosmos.springexamples.quickstart.sync.CosmosProperties;
 import com.azure.spring.data.cosmos.config.AbstractCosmosConfiguration;
 import com.azure.spring.data.cosmos.config.CosmosConfig;
 import com.azure.spring.data.cosmos.core.ResponseDiagnostics;
@@ -13,7 +12,6 @@ import com.azure.spring.data.cosmos.repository.config.EnableCosmosRepositories;
 import com.azure.spring.data.cosmos.repository.config.EnableReactiveCosmosRepositories;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
@@ -26,9 +24,11 @@ import org.springframework.lang.Nullable;
 @PropertySource("classpath:application.properties")
 public class Configuration extends AbstractCosmosConfiguration {
     private static final Logger logger = LoggerFactory.getLogger(Configuration.class);
-
-    @Autowired
     private CosmosProperties properties;
+
+    public Configuration(CosmosProperties properties){
+        this.properties = properties;
+    }
 
     @Bean
     public CosmosClientBuilder cosmosClientBuilder() {

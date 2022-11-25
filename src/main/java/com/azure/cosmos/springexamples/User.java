@@ -5,20 +5,15 @@ package com.azure.cosmos.springexamples;
 import com.azure.spring.data.cosmos.core.mapping.Container;
 import com.azure.spring.data.cosmos.core.mapping.PartitionKey;
 
-//just default a container.
-//Containers will be created dynamically for each tenant from TenantInterceptor, using CosmosTemplate in UserController.
-@Container(containerName = "defaultContainer", ru = "400")
+// Container names will be created/referenced dynamically using tenant id from TenantInterceptor,
+@Container(ru = "400", autoCreateContainer = false)
 public class User {
     private String id;
     private String firstName;
-
-
     @PartitionKey
     private String lastName;
-
     public User() {
     }
-
     public User(String id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
@@ -29,15 +24,12 @@ public class User {
     public String toString() {
         return String.format("com.azure.spring.data.cosmos.User: %s %s, %s", firstName, lastName, id);
     }
-
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getFirstName() {
         return firstName;
     }
@@ -45,7 +37,6 @@ public class User {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
     public String getLastName() {
         return lastName;
     }

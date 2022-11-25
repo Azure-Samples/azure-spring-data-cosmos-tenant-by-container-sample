@@ -5,22 +5,14 @@ Spring Data sample for a multi-tenanted app where each tenant has its own Azure 
 ## Features
 
 - The application is a simple CRUD REST web service which creates `User` entries in each tenant, and makes use of  `azure-spring-data-cosmos` for Azure Cosmos DB SQL API.
-- At application startup, a custom `CosmosTemplate` is created for all existing containers in the database defined at `cosmos.tenantsDatabase` in `application.properties`, and stored in a hashmap.
-- A default database is created using `cosmos.databaseName` in `application.properties`. A default container defined in `User` is also created. These resources make use of the standard `CosmosRepository` in `UserRepository`, but nothing is stored in them by the application.
-- The application uses `WebRequestInterceptor` to capture a http request header of `TenantId`. This is used to identify the corresponding `User` container (tenant) from the hashmap. A new template and container will be dynamically created if none exists for `TenantId` in the hashmap.
+- At application startup, all existing containers in the `tenants` database are read and stored in `tenantList` in `TenantStorage` class. This class also contains resources to create Cosmos containers named by `tenantId` dynamically. The `tenants` database is created if it does not exists.
+- The application uses `WebRequestInterceptor` to capture a http request header of `TenantId`. This is used to check if the corresponding `User` container (tenant id) exists in `tenantList`. If it does not, the container will be created.
+- CRUD operations are performed in UserController using `cosmosTemplate` which is auto-wired along with `tenantStorage` which is used to create and reference Cosmos containers dynamically.
 
 ## Multi-tenancy considerations
 
-Review our article on [Multitenancy and Azure Cosmos DB](https://learn.microsoft.com/azure/architecture/guide/multitenant/service/cosmos-db) for more guidance. 
-
-This sample application fetches the value of the tenant from request header (TenantId). In a real-world application, it is up to you how to identify this while keeping your application secure. For example, you may want to fetch the identifier from a cookie, or other header name.
-
-The approach of assigning a container (or database) to each tenant may be useful if it is absolutely necessary to strictly isolate performance for each tenant. However, you should carefully consider the trade-offs involved in taking this approach. 
-
-Unlike traditional databases, Azure Cosmos DB provides the capability for transparent [partitioning and horizontal scaling](https://learn.microsoft.com/azure/cosmos-db/partitioning-overview), and therefore in many cases it is feasible to use the `partitionKey` as the tenant identifier. In general, this allows you to achieve the highest density of tenants and therefore the lowest price per tenant. Although it is not possible to strictly isolate performance or have unlimited storage in a given partition, there are various features and approaches, such as using [hierarchical partition keys](https://learn.microsoft.com/azure/cosmos-db/hierarchical-partition-keys) or [throughput reallocation](https://learn.microsoft.com/azure/cosmos-db/sql/distribute-throughput-across-partitions) which can mitigate these challenges. Meanwhile, some challenges you may face when giving each tenant it's own container or database are as follows:
-
-- **Cost** - each container has a minimum [Request Unit](https://learn.microsoft.com/azure/cosmos-db/request-units) allocation. If many of your tenants have very low activity, having a container or database for each tenant may not prove cost effective.
-- **Client-side resources** - a single container can have millions of partitions, and all be served from a singleton Cosmos client. However, each container requires at least one CosmosClient. This may put significant memory/resource demands on your application code. For many thousands of tenants this may force you into a more complex application code setup in order to serve performance needs adequately.  
+This sample application fetches the value of the tenant from request header (TenantId). In a real-world application, it is up to you how to identify this while keeping your application secure. For example, you may want to fetch the identifier from a cookie, or other header name. The approach of assigning a container (or database) to each tenant may be useful if it is necessary to strictly isolate performance for each tenant. However, you should carefully consider the trade-offs involved in taking this approach. Review our article on [Multitenancy and Azure Cosmos DB](https://learn.microsoft.com/azure/architecture/guide/multitenant/service/cosmos-db) for more guidance.
+ 
 
 ## Getting Started
 

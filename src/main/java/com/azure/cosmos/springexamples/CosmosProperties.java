@@ -3,32 +3,21 @@
 package com.azure.cosmos.springexamples;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @ConfigurationProperties(prefix = "cosmos")
 public class CosmosProperties {
-
     private String uri;
-
     private String key;
-
     private String secondaryKey;
-
     private String databaseName;
 
     public void setDatabaseName(String databaseName) {
         this.databaseName = databaseName;
     }
-
     public String getDatabaseName() {
         return databaseName;
     }
-
     private boolean queryMetricsEnabled;
-
     public String getUri() {
         return uri;
     }
@@ -36,7 +25,6 @@ public class CosmosProperties {
     public void setUri(String uri) {
         this.uri = uri;
     }
-
     public String getKey() {
         return key;
     }
@@ -52,7 +40,6 @@ public class CosmosProperties {
     public void setSecondaryKey(String secondaryKey) {
         this.secondaryKey = secondaryKey;
     }
-
     public boolean isQueryMetricsEnabled() {
         return queryMetricsEnabled;
     }
